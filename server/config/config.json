@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "root",
+    "password": "java",
+    "database": "smartcooler",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin",
+    "password": "OOYHORSHUNYPKLAF",
+    "database": "compose",
+    "host": "sl-us-dal-9-portal.3.dblayer.com",
+    "port": 19904,
+    "dialect": "mysql"
+  }
+}

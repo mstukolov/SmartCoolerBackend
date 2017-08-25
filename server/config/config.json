@@ -5,14 +5,16 @@
     "database": "smartcooler",
     "host": "127.0.0.1",
     "port": 3306,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "raw": true
   },
   "production": {
     "username": "admin",
-    "password": "OOYHORSHUNYPKLAF",
+    "password": "OPSGTCFHRBHCWYOV",
     "database": "compose",
-    "host": "sl-us-dal-9-portal.3.dblayer.com",
-    "port": 19904,
-    "dialect": "mysql"
+    "host": "sl-us-south-1-portal.4.dblayer.com",
+    "port": 19500,
+    "dialect": "mysql",
+    "raw": true
   }
 }

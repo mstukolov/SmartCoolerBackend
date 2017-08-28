@@ -25,19 +25,38 @@ module.exports = {
             })
             .catch(error => res.status(400).send(error));
     },
+    reportMonthAggregate(req, res) {
+        return Repmonthstat
+            .all({ attributes:
+                        ['devid', 'orgid', 'organization', 'recyear', 'recquart', 'recmonth', 'recmonthyear',
+                        [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
+                        [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
+                    group: ['recmonth'],
+                    where: {orgid:{$eq: req.query.orgid}},
+                    order: [['recmonth', 'ASC']]
+            })
+            .then(data => {
+                data.forEach(function(entry) {
+                    entry.valueout = parseFloat(entry.valueout)
+                    entry.valuein = parseFloat(entry.valuein)
+                });
+                res.status(200).send(data)
+            })
+            .catch(error => res.status(400).send(error));
+    },
     reportDayAll(req, res) {
         return Repdaystat
             .all({
-                attributes: ['recdate', [sequelize.fn('SUM', sequelize.col('valueend')), 'valueend'], [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
+                attributes: ['recdate', [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'], [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
                 group: ['recdate'],
                 where: {
                     orgid:{$eq: req.query.orgid},
                     recdate: {$lt: req.query.end, $gt: req.query.start}},
-                    order: [['recdate', 'ASC']]})
+                order: [['recdate', 'ASC']]})
             .then(data => {
                 data.forEach(function(entry) {
                     entry.valuein = parseFloat(entry.valuein)
-                    entry.valueend = parseFloat(entry.valueend)
+                    entry.valueout = parseFloat(entry.valueout)
                 });
                 res.status(200).send(data)
             })

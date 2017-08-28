@@ -13,6 +13,7 @@ const devicetransController = require(__dirname + '/server/controllers/devicetra
 const devicelasttransController = require(__dirname + '/server/controllers/devicelasttransController');
 const storeProceduresController = require(__dirname + '/server/controllers/storeProceduresController');
 const viewsController = require(__dirname + '/server/controllers/viewsController');
+const organizationController = require(__dirname + '/server/controllers/organizationController');
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -50,7 +51,7 @@ app.get('/getlasttrans', function(req, res) {
 });
 
 app.get('/repmonthstats', function(req, res) {
-    viewsController.reportMonth(req, res)
+    viewsController.reportMonthAggregate(req, res)
 });
 app.get('/repdaystats', function(req, res) {
     viewsController.reportDayAll(req, res)
@@ -60,6 +61,9 @@ app.get('/repquartstats', function(req, res) {
 });
 app.get('/repyeartstats', function(req, res) {
     viewsController.reportYear(req, res)
+});
+app.get('/organizations', function(req, res) {
+    organizationController.listRaw(req, res)
 });
 
 //---------------Routing for Device Trans Table--------------------------------------

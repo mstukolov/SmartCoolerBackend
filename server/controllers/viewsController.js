@@ -8,32 +8,15 @@ const Repquartstat = require('../models').Repquartstat;
 const Repyearstat = require('../models').Repyearstat;
 
 module.exports = {
-    reportMonth(req, res) {
-        return Repmonthstat
-            .all({ attributes:
-                ['devid', 'orgid', 'organization', 'recyear', 'recquart', 'recmonth',
-                'recmonthyear', 'valueout', 'valuein', 'valuestart', 'valueend', 'countevent']})
-            .then(data => {
-                data.forEach(function(entry) {
-                    entry.valueout = parseFloat(entry.valueout)
-                    entry.valuein = parseFloat(entry.valuein)
-                    entry.valuestart = parseFloat(entry.valuestart)
-                    entry.valueend = parseFloat(entry.valueend)
-                    entry.countevent = parseFloat(entry.countevent)
-                });
-                res.status(200).send(data)
-            })
-            .catch(error => res.status(400).send(error));
-    },
     reportMonthAggregate(req, res) {
         return Repmonthstat
             .all({ attributes:
-                        ['devid', 'orgid', 'organization', 'recyear', 'recquart', 'recmonth', 'recmonthyear',
+                        ['orgid', 'organization', 'recyear', 'recquart', 'recmonth', 'recmonthyear',
                         [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
                         [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
-                    group: ['recmonth'],
+                    group: ['recmonth', 'recyear','recquart', 'recmonthyear'],
                     where: {orgid:{$eq: req.query.orgid}},
-                    order: [['recmonth', 'ASC']]
+                    order: [['recyear', 'ASC'], ['recmonth', 'ASC']]
             })
             .then(data => {
                 data.forEach(function(entry) {
@@ -44,7 +27,45 @@ module.exports = {
             })
             .catch(error => res.status(400).send(error));
     },
-    reportDayAll(req, res) {
+    reportQuartAggregate(req, res) {
+        return Repmonthstat
+            .all({ attributes:
+                ['orgid', 'organization', 'recyear', 'recquart',
+                    [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
+                    [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
+                group: ['recyear','recquart'],
+                where: {orgid:{$eq: req.query.orgid}},
+                order: [['recyear', 'ASC'], ['recquart', 'ASC']]
+            })
+            .then(data => {
+                data.forEach(function(entry) {
+                    entry.valueout = parseFloat(entry.valueout)
+                    entry.valuein = parseFloat(entry.valuein)
+                });
+                res.status(200).send(data)
+            })
+            .catch(error => res.status(400).send(error));
+    },
+    reportYearAggregate(req, res) {
+        return Repmonthstat
+            .all({ attributes:
+                ['orgid', 'organization', 'recyear',
+                    [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
+                    [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
+                group: ['recyear'],
+                where: {orgid:{$eq: req.query.orgid}},
+                order: [['recyear', 'ASC']]
+            })
+            .then(data => {
+                data.forEach(function(entry) {
+                    entry.valueout = parseFloat(entry.valueout)
+                    entry.valuein = parseFloat(entry.valuein)
+                });
+                res.status(200).send(data)
+            })
+            .catch(error => res.status(400).send(error));
+    },
+    reportDayAggregate(req, res) {
         return Repdaystat
             .all({
                 attributes: ['recdate', [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'], [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
@@ -71,6 +92,24 @@ module.exports = {
                         devid: req.query.devid,
                         recdate: {$lt: req.query.end, $gt: req.query.start}},
                         order: [['recdate', 'ASC']]})
+            .then(data => {
+                data.forEach(function(entry) {
+                    entry.valueout = parseFloat(entry.valueout)
+                    entry.valuein = parseFloat(entry.valuein)
+                    entry.valuestart = parseFloat(entry.valuestart)
+                    entry.valueend = parseFloat(entry.valueend)
+                    entry.countevent = parseFloat(entry.countevent)
+                });
+                res.status(200).send(data)
+            })
+            .catch(error => res.status(400).send(error));
+    },
+   /* ------------------Не используемые функции--------------*/
+    reportMonth(req, res) {
+        return Repmonthstat
+            .all({ attributes:
+                ['devid', 'orgid', 'organization', 'recyear', 'recquart', 'recmonth',
+                    'recmonthyear', 'valueout', 'valuein', 'valuestart', 'valueend', 'countevent']})
             .then(data => {
                 data.forEach(function(entry) {
                     entry.valueout = parseFloat(entry.valueout)

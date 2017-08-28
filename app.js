@@ -54,13 +54,13 @@ app.get('/repmonthstats', function(req, res) {
     viewsController.reportMonthAggregate(req, res)
 });
 app.get('/repdaystats', function(req, res) {
-    viewsController.reportDayAll(req, res)
+    viewsController.reportDayAggregate(req, res)
 });
 app.get('/repquartstats', function(req, res) {
-    viewsController.reportQuart(req, res)
+    viewsController.reportQuartAggregate(req, res)
 });
 app.get('/repyeartstats', function(req, res) {
-    viewsController.reportYear(req, res)
+    viewsController.reportYearAggregate(req, res)
 });
 app.get('/organizations', function(req, res) {
     organizationController.listRaw(req, res)

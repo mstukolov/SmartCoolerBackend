@@ -43,10 +43,16 @@ module.exports = {
                     .catch((error) => res.status(400).send(error))})
                     .catch((error) => res.status(400).send(error));
     },
+    findOrganizationCustomers(req, res) {
+        return Organizations
+            .all({where:{parentorgid:{$eq: req.query.parentorgid}}})
+            .then(list => res.status(200).send(list))
+            .catch(error => res.status(400).send(error));
+    },
     list(req, res) {
         return Organizations
                 .all({include: [{model: Organizations, as: 'parentorg'}]})
-                .then(list => res.status(200).render('organizations', {orglist: list, user:req.session.username}))
+                .then(list => res.status(200).send(list))
                 .catch(error => res.status(400).send(error));
     },
     listRaw(req, res) {

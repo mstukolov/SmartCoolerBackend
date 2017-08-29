@@ -14,6 +14,8 @@ const devicelasttransController = require(__dirname + '/server/controllers/devic
 const storeProceduresController = require(__dirname + '/server/controllers/storeProceduresController');
 const viewsController = require(__dirname + '/server/controllers/viewsController');
 const organizationController = require(__dirname + '/server/controllers/organizationController');
+const replenishmentController = require(__dirname + '/server/controllers/replenishmentController');
+const deviceController = require(__dirname + '/server/controllers/deviceController');
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -63,9 +65,14 @@ app.get('/repyeartstats', function(req, res) {
     viewsController.reportYearAggregate(req, res)
 });
 app.get('/organizations', function(req, res) {
-    organizationController.listRaw(req, res)
+    organizationController.findOrganizationCustomers(req, res)
 });
-
+app.get('/replenishment', function(req, res) {
+    replenishmentController.getAllOrders(req, res)
+});
+app.get('/devices', function(req, res) {
+    deviceController.findOrganizationDevices(req, res)
+});
 //---------------Routing for Device Trans Table--------------------------------------
 /*app.get('/createDeviceTransaction', function (req, res, next) {
     devicetransController.create(req, res)

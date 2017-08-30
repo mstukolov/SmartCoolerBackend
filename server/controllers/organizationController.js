@@ -19,14 +19,13 @@ module.exports = {
         return Organizations
                 .findOne({
                     include: [{model: Organizations, as: 'parentorg'}],
-                    where: {id: req.body.orgId}
+                    where: {id: req.body.orgid}
                 })
                 .then(organization => {
                     if (!organization) { return res.status(404).send({message: 'Organization Not Found'});}
                     return organization
                     .update({
-                        organization: req.body.name || organization.organization,
-                        parentorgId: req.body.parent_id || organization.parent,
+                        organization: req.body.organization || organization.organization,
                         active: req.body.active || organization.active,
                         inventQty: req.body.inventQty || organization.inventQty,
                         agreement: req.body.agreement || organization.agreement,
@@ -77,11 +76,9 @@ module.exports = {
         return Organizations
                 .findOne({
                     include: [{model: Organizations, as: 'parentorg'}],
-                    where: {id: req.query.orgId}
-                })
-                .then(organization =>
-            {if (!organization) { return res.status(404).send({message: 'device Not Found',})}
-        return res.status(200).render('organization-details', {data : organization, statusMessage : '', statusEvent: '', user:req.session.username });
+                    where: {id: req.query.orgid}
+                }).then(organization => {if (!organization) { return res.status(404).send({message: 'device Not Found',})}
+                    return res.status(200).send(organization);
     })
     .catch(error => res.status(400).send(error));
     },

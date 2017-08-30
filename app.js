@@ -67,6 +67,12 @@ app.get('/repyeartstats', function(req, res) {
 app.get('/organizations', function(req, res) {
     organizationController.findOrganizationCustomers(req, res)
 });
+app.get('/organization-details', function(req, res) {
+    organizationController.details(req, res)
+});
+app.post('/save-organization-details', function(req, res) {
+    organizationController.update(req, res)
+});
 app.get('/replenishment', function(req, res) {
     replenishmentController.getAllOrders(req, res)
 });

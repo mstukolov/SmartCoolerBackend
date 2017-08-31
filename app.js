@@ -73,6 +73,14 @@ app.get('/organization-details', function(req, res) {
 app.post('/save-organization-details', function(req, res) {
     organizationController.update(req, res)
 });
+app.post('/create-organization', function(req, res) {
+    organizationController.create(req, res)
+});
+
+app.post('/delete-organization', function(req, res) {
+    organizationController.destroy(req, res)
+});
+
 app.get('/replenishment', function(req, res) {
     replenishmentController.getAllOrders(req, res)
 });

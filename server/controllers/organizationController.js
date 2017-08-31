@@ -8,11 +8,13 @@ module.exports = {
     create(req, res) {
         return Organizations
                 .create({
-                    organization: req.query.organization || 'new orgs',
-                    parentorgId: 0,
-                    active: 'Блокирован'
+                    organization: req.body.organization,
+                    parentorgId: req.body.parentorgid,
+                    agreement: req.body.agreement,
+                    inventQty: req.body.inventQty,
+                    active: 'Активный'
                 })
-        .then(res.redirect('/organizations'))
+        .then(organization => {res.status(200).send(organization)})
         .catch(error => res.status(400).send(error));
     },
     update(req, res) {
@@ -34,11 +36,7 @@ module.exports = {
                         phone: req.body.phone || organization.phone,
                         contact: req.body.contact || organization.contact
                     })
-                    .then(organization =>
-                        {
-                        res.render('organization-details',{data: organization, statusMessage : 'Успешно сохранено', statusEvent: 'alert-success',user:req.session.username })
-                        }
-                    )
+                    .then(organization =>  res.status(200).send(organization))
                     .catch((error) => res.status(400).send(error))})
                     .catch((error) => res.status(400).send(error));
     },
@@ -84,19 +82,11 @@ module.exports = {
     },
     destroy(req, res) {
         return Organizations
-                .findById(req.query.orgId)
-                .then(organization => {
-                if (!organization) {
-                    return res.status(400).send({
-                        message: 'Todo Not Found',
-                    });
-                }
+                .findById(req.body.orgid)
+                .then(organization => {if (!organization) {return res.status(400).send({message: 'Object Not Found'})}
                 return organization
-                .destroy()
-                .then(res.redirect('/organizations'))
-                .catch(error =>
-                    {
-                        res.status(400).send(error)
-                    }
-                )}).catch(error => res.status(400).send(error))}
+                    .destroy()
+                    .then(organization => {res.status(200).send(organization)})
+                    .catch(error => {res.status(400).send(error)})
+                }).catch(error => res.status(400).send(error))}
 };

@@ -87,6 +87,12 @@ app.get('/replenishment', function(req, res) {
 app.get('/devices', function(req, res) {
     deviceController.findOrganizationDevices(req, res)
 });
+app.get('/device-details', function(req, res) {
+    deviceController.details(req, res)
+});
+app.post('/save-device-details', function(req, res) {
+    deviceController.update(req, res)
+});
 //---------------Routing for Device Trans Table--------------------------------------
 /*app.get('/createDeviceTransaction', function (req, res, next) {
     devicetransController.create(req, res)

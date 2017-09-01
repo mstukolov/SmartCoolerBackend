@@ -48,21 +48,18 @@ module.exports = {
     },
     update(req, res) {
         return Devices
-                .findById(req.body.id)
+                .findById(req.body.deviceid)
                 .then(device => {if (!device) { return res.status(404).send({message: 'device Not Found',});}
                     return device.update({
                             orgid: req.body.orgid || device.orgid,
-                            devid: req.body.devid || device.devid,
                             devtype: req.body.devtype || device.devtype,
                             lng: req.body.lng || device.lng,
                             ltd: req.body.ltd || device.ltd,
                             email: req.body.email || device.email,
-                            qtyBottle: req.body.qtyBottle || device.qtyBottle,
                             name: req.body.name || device.name,
                             addhour: req.body.addhour || '+03:00',
                             address: req.body.address || device.address})
-                        .then(res.render('device-details',
-                            {data: device, statusMessage : 'Успешно сохранено', statusEvent: 'alert-success', user:req.session.username }))
+                        .then(res.status(200).send('success'))
                         .catch((error) => res.status(400).send(error));})
                         .catch((error) => res.status(400).send(error));
     },
@@ -94,12 +91,11 @@ module.exports = {
                 .findOne({
                     include: [{model: Organizations, as: 'org'}],
                     where: {
-                        $or:[{id: req.query.id}, {devid: req.query.devid}]
+                        $or:[{id: req.query.deviceid}, {devid: req.query.devid}]
                     }
-                })
-                .then(device =>
+                }).then(device =>
                     {if (!device) { return res.status(404).send({message: 'device Not Found',})}
-                    return res.status(200).render('device-details', {data : device, statusMessage : '', statusEvent: '', user:req.session.username });
+                    return res.status(200).send(device);
     })
     .catch(error => res.status(400).send(error));
     },

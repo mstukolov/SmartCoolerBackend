@@ -8,7 +8,7 @@
 var ibmiotf = require("ibmiotf");
 var config = {
     "org" : 'kwxqcy',
-    "id" : 'a-kwxqcy-app6666777777',
+    "id" : 'a-kwxqcy-app689898',
     "domain": "internetofthings.ibmcloud.com",
     "auth-key" : 'a-kwxqcy-1dw7hvzvwk',
     "auth-token" : 'tsM8N(FS@iOc3CId+5'

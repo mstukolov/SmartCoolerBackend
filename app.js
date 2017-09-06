@@ -16,6 +16,7 @@ const viewsController = require(__dirname + '/server/controllers/viewsController
 const organizationController = require(__dirname + '/server/controllers/organizationController');
 const replenishmentController = require(__dirname + '/server/controllers/replenishmentController');
 const deviceController = require(__dirname + '/server/controllers/deviceController');
+const usersController = require(__dirname + '/server/controllers/usersController');
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -92,6 +93,10 @@ app.get('/device-details', function(req, res) {
 });
 app.post('/save-device-details', function(req, res) {
     deviceController.update(req, res)
+});
+
+app.get('/check-auth', function(req, res) {
+    usersController.auth(req, res)
 });
 //---------------Routing for Device Trans Table--------------------------------------
 /*app.get('/createDeviceTransaction', function (req, res, next) {

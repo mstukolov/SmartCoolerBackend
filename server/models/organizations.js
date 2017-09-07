@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
     contact: DataTypes.STRING,
-    inventQty:  DataTypes.BIGINT
+    inventQty:  DataTypes.BIGINT,
+    currQty:  DataTypes.BIGINT
   }, {
     classMethods: {
       associate: function(models) {

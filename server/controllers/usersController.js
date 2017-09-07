@@ -16,7 +16,7 @@ module.exports = {
                     password: {$eq:req.query.password}}})
              .then(function (user) {
                     if(user.length != 0) {
-                        res.status(200).send({auth: 'allowed'})
+                        res.status(200).send({auth: 'allowed', orgid: user[0].orgid})
                     } else {
                         res.status(400).send({auth: 'denied'})
                     }}).catch(error => res.status(400).send(error))

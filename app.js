@@ -17,6 +17,8 @@ const organizationController = require(__dirname + '/server/controllers/organiza
 const replenishmentController = require(__dirname + '/server/controllers/replenishmentController');
 const deviceController = require(__dirname + '/server/controllers/deviceController');
 const usersController = require(__dirname + '/server/controllers/usersController');
+const deliveryScheduleController = require(__dirname + '/server/controllers/deliveryScheduleController');
+const schedulereplenishmentordersController = require(__dirname + '/server/controllers/schedulereplenishmentordersController');
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -31,8 +33,19 @@ app.set('view options', { layout: false });
 app.use(express.static(__dirname + '/views'))
 
 //CORS middleware
+let allowedOrigins = [
+                        'http://89.169.3.101',
+                        'http://192.168.1.7:3000',
+                        'http://5.101.205.14:3000',
+                        'http://10.0.0.48:3000',
+                        'http://smartcooler-lk.mybluemix.net'
+                        ]
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://10.0.0.48:3000');
+   var origin = req.headers.origin;
+   if(allowedOrigins.indexOf(origin) > -1){
+       res.setHeader('Access-Control-Allow-Origin', origin)
+   }
+    //res.header('Access-Control-Allow-Origin', 'http://10.0.0.48:3000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
@@ -85,6 +98,10 @@ app.post('/delete-organization', function(req, res) {
 app.get('/replenishment', function(req, res) {
     replenishmentController.getAllOrders(req, res)
 });
+app.get('/replenishment-schedule', function(req, res) {
+    schedulereplenishmentordersController.getAll(req, res)
+});
+
 app.get('/devices', function(req, res) {
     deviceController.findOrganizationDevices(req, res)
 });
@@ -98,6 +115,17 @@ app.post('/save-device-details', function(req, res) {
 app.get('/check-auth', function(req, res) {
     usersController.auth(req, res)
 });
+
+app.get('/get-deliveryschedule', function(req, res) {
+    deliveryScheduleController.retrieve(req, res)
+});
+app.post('/update-deliveryschedule', function(req, res) {
+    deliveryScheduleController.update(req, res)
+});
+app.get('/findall-deliveryschedule', function(req, res) {
+    deliveryScheduleController.list(req, res)
+});
+
 //---------------Routing for Device Trans Table--------------------------------------
 /*app.get('/createDeviceTransaction', function (req, res, next) {
     devicetransController.create(req, res)

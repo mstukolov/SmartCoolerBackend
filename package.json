@@ -18,7 +18,8 @@
     "cfenv": "1.0.0",
     "ejs": "2.5.6",
     "ibmiotf": "0.2.37",
-    "mongodb": "2.2.30"
+    "mongodb": "2.2.30",
+    "nodemailer": "latest"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

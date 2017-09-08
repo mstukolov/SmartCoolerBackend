@@ -19,6 +19,8 @@ const deviceController = require(__dirname + '/server/controllers/deviceControll
 const usersController = require(__dirname + '/server/controllers/usersController');
 const deliveryScheduleController = require(__dirname + '/server/controllers/deliveryScheduleController');
 const schedulereplenishmentordersController = require(__dirname + '/server/controllers/schedulereplenishmentordersController');
+const notificationController = require(__dirname + '/server/controllers/notificationController');
+const ordersfulfillmentController = require(__dirname + '/server/controllers/ordersfulfillmentController');
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -34,18 +36,22 @@ app.use(express.static(__dirname + '/views'))
 
 //CORS middleware
 let allowedOrigins = [
-                        'http://89.169.3.101',
+                        /*'http://89.169.3.101',
                         'http://192.168.1.7:3000',
+                        'http://192.168.1.8:3000',
                         'http://5.101.205.14:3000',
-                        'http://10.0.0.48:3000',
+                        'http://10.0.0.48:3000',*/
+                        'http://89.169.3.101',
+                        'http://192.168.1.8:3000',
                         'http://smartcooler-lk.mybluemix.net'
                         ]
 var allowCrossDomain = function(req, res, next) {
    var origin = req.headers.origin;
-   if(allowedOrigins.indexOf(origin) > -1){
+   /*if(allowedOrigins.indexOf(origin) > -1){
        res.setHeader('Access-Control-Allow-Origin', origin)
-   }
-    //res.header('Access-Control-Allow-Origin', 'http://10.0.0.48:3000');
+   }*/
+
+    res.header('Access-Control-Allow-Origin', 'https://smartcooler-lk.mybluemix.net');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
@@ -124,6 +130,12 @@ app.post('/update-deliveryschedule', function(req, res) {
 });
 app.get('/findall-deliveryschedule', function(req, res) {
     deliveryScheduleController.list(req, res)
+});
+app.post('/send-mail-notification', function(req, res) {
+    notificationController.sendMailNotification(req, res)
+});
+app.get('/fulfillment-orders', function(req, res) {
+    ordersfulfillmentController.getAll(req, res)
 });
 
 //---------------Routing for Device Trans Table--------------------------------------

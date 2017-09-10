@@ -20,7 +20,7 @@ const usersController = require(__dirname + '/server/controllers/usersController
 const deliveryScheduleController = require(__dirname + '/server/controllers/deliveryScheduleController');
 const schedulereplenishmentordersController = require(__dirname + '/server/controllers/schedulereplenishmentordersController');
 const notificationController = require(__dirname + '/server/controllers/notificationController');
-const ordersfulfillmentController = require(__dirname + '/server/controllers/ordersfulfillmentController');
+const ordersfullfillmentController = require(__dirname + '/server/controllers/ordersfullfillmentController');
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -135,7 +135,7 @@ app.post('/send-mail-notification', function(req, res) {
     notificationController.sendMailNotification(req, res)
 });
 app.get('/fulfillment-orders', function(req, res) {
-    ordersfulfillmentController.getAll(req, res)
+    ordersfullfillmentController.getAll(req, res)
 });
 
 //---------------Routing for Device Trans Table--------------------------------------

@@ -3,9 +3,9 @@
  */
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-    var Ordersfullfillment = sequelize.define('OrdersFullfillment', {
+    var OrdersFullfillment = sequelize.define('OrdersFullfillment', {
         id:{type:DataTypes.BIGINT, primaryKey: true},
-        parentorgId: DataTypes.BIGINT,
+        parentorgid: DataTypes.BIGINT,
         parentorganization: DataTypes.STRING,
         orgid: DataTypes.STRING,
         organization: DataTypes.STRING,
@@ -15,12 +15,13 @@ module.exports = function(sequelize, DataTypes) {
         orderQty: DataTypes.BIGINT,
         realQty: DataTypes.BIGINT,
         insertdate:  DataTypes.DATE
-    }, {
+    },
+        {freezeTableName: true},{
         classMethods: {
             associate: function(models) {
 
             }
         }
     });
-    return Ordersfullfillment;
+    return OrdersFullfillment;
 };

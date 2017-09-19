@@ -30,6 +30,8 @@ module.exports = {
                         organization: req.body.organization || organization.organization,
                         active: req.body.active || organization.active,
                         inventQty: req.body.inventQty || organization.inventQty,
+                        currQty: req.body.currQty || organization.currQty,
+                        updatedQty: req.body.updatedQty || organization.updatedQty,
                         agreement: req.body.agreement || organization.agreement,
                         agreementDate: req.body.agreementDate || organization.agreementDate,
                         email: req.body.email || organization.email,

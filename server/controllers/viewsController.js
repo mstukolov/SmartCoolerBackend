@@ -15,7 +15,11 @@ module.exports = {
                         [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
                         [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
                     group: ['recmonth', 'recyear','recquart', 'recmonthyear'],
-                    where: {orgid:{$eq: req.query.orgid}},
+                    where: {
+                            orgid:{$eq: req.query.orgid},
+                            recyear: {$lte: req.query.year_end, $gte: req.query.year_start},
+                            recmonth: {$lte: req.query.month_end, $gte: req.query.month_start},
+                    },
                     order: [['recyear', 'ASC'], ['recmonth', 'ASC']]
             })
             .then(data => {
@@ -34,7 +38,10 @@ module.exports = {
                     [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
                     [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
                 group: ['recyear','recquart'],
-                where: {orgid:{$eq: req.query.orgid}},
+                where: {
+                        orgid:{$eq: req.query.orgid},
+                        recyear: {$lte: req.query.year_end, $gte: req.query.year_start}
+                },
                 order: [['recyear', 'ASC'], ['recquart', 'ASC']]
             })
             .then(data => {
@@ -53,7 +60,10 @@ module.exports = {
                     [sequelize.fn('SUM', sequelize.col('valueout')), 'valueout'],
                     [sequelize.fn('SUM', sequelize.col('valuein')), 'valuein']],
                 group: ['recyear'],
-                where: {orgid:{$eq: req.query.orgid}},
+                where: {
+                        orgid:{$eq: req.query.orgid},
+                        recyear: {$lte: req.query.year_end, $gte: req.query.year_start}
+                },
                 order: [['recyear', 'ASC']]
             })
             .then(data => {

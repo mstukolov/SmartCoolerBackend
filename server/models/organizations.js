@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
     phone: DataTypes.STRING,
     contact: DataTypes.STRING,
     inventQty:  DataTypes.BIGINT,
-    currQty:  DataTypes.BIGINT
+    currQty:  DataTypes.BIGINT,
+    updatedQty: DataTypes.DATE
   }, {
     classMethods: {
       associate: function(models) {

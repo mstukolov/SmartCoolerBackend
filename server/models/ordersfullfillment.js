@@ -14,6 +14,8 @@ module.exports = function(sequelize, DataTypes) {
         avgbottle: DataTypes.BIGINT,
         orderQty: DataTypes.BIGINT,
         realQty: DataTypes.BIGINT,
+        deltaQty: DataTypes.BIGINT,
+        deltasignQty: DataTypes.BIGINT,
         insertdate:  DataTypes.DATE
     },
         {freezeTableName: true},{

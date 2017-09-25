@@ -28,7 +28,7 @@ module.exports = {
     },
     list(req, res) {
         return Devicelasttrans
-                .all({ attributes: ['devid', 'nparam1', 'nparam2']})
+                .all({ attributes: ['id','devid', 'nparam1', 'nparam2', 'createdAt']})
                 .then(data => {
                     data.forEach(function(entry) {
                         entry.nparam1 = parseFloat(entry.nparam1)

@@ -52,7 +52,8 @@ module.exports = {
                 from: '"C2M SmartCooler Change Bottle Service " <data@center2m.ru>', // sender address
                 to: device['email'], // list of receivers
                 subject: "Требуется смена бутылки:" + deviceid, // Subject line
-                html: "Для устройства:" + deviceid + " требуется смена бутылки. Осталось: " + curValue// html body
+                html: "Для устройства:" +
+                                deviceid+ " (" + device['name'] + ")" + " требуется смена бутылки. Осталось: " + curValue + "л."// html body
             }
             transporter.sendMail(mailOptions, function () {
                 console.log("Письмо о смене бутылки отправлено.....")

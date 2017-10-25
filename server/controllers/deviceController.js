@@ -18,7 +18,9 @@ ibmiotfClient.connect();
 
 const Devices = require('../models').Devices;
 const Organizations = require('../models').Organizations;
+const Devicelasttransview = require('../models').Devicelasttransview;
 Devices.belongsTo(Organizations, {as: 'org'});
+Devices.belongsTo(Devicelasttransview, {as: 'lasttrans', foreignKey: 'devid', targetKey: 'devid'}/*, {as: 'lasttrans'}*/);
 
 module.exports = {
     create(req, res) {
@@ -65,7 +67,13 @@ module.exports = {
     },
     findOrganizationDevices(req, res) {
         return Devices
-                .all({include: [{model: Organizations, where:{parentorgid:{$eq: req.query.parentorgid}},as: 'org'}]})
+                .all(
+                    {   attributes: ['id', 'name', 'devid', 'devtype',],
+                        include: [
+                                {model: Organizations, attributes: ['id', 'organization', 'parentorgid'], where: {parentorgid:{$eq: req.query.parentorgid}},as: 'org'},
+                                {model: Devicelasttransview, attributes: ['nparam1', 'createdAt'], as: 'lasttrans'}
+                            ]
+                    })
                 .then(data => res.status(200).send(data))
                 .catch(error => res.status(400).send(error))
     },
@@ -86,6 +94,12 @@ module.exports = {
                 .then(device => {if (!device) { return res.status(404).send({message: 'device Not Found',});}
                         return res.status(200).send(device)}).catch(error => res.status(400).send(error));}
     ,
+    getDeviceEmail(deviceid) {
+        return Devices
+            .findOne({
+                where: {devid: deviceid}
+            })
+    },
     details(req, res) {
         return Devices
                 .findOne({

@@ -156,4 +156,5 @@ app.get('/getAllDeviceTransactions', function (req, res, next) {
 
 var callMySQLProcedures = setInterval(function(){storeProceduresController.startProcedures()}, 1000*60*60*12);
 
+var callChangeBottleNotification = setInterval(function(){storeProceduresController.periodicChangeBottleRequireNotification()}, 1000*60*60*8);
 module.exports = app;
